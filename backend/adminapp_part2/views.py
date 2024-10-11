@@ -24,6 +24,9 @@ from decimal import Decimal
 
 
 @api_view(["post"])
+
+@permission_classes([IsAuthenticated])
+@admin_required
 def add_coupon(request):
 
     data = json.loads(request.body)
@@ -64,7 +67,9 @@ def add_coupon(request):
 # except Exception as e:
 #     return JsonResponse({'error': str(e)}, status=400)
 
-
+@api_view(["get"])
+@permission_classes([IsAuthenticated])
+@admin_required
 def get_coupons(request):
     c = list(
         Coupon.objects.values(
@@ -119,7 +124,9 @@ def manage_status_request(request, id):
 
     return HttpResponse("success")
 
-
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@admin_required
 def generate_report_with_date_range(request):
     data = json.loads(request.body)
     start = data.get("startDate")

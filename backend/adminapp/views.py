@@ -424,7 +424,9 @@ def get_all_orders(request):
     # print(ordered_products)
     return JsonResponse({"orders": products})
 
-
+@api_view(["post"])
+@permission_classes([IsAuthenticated])
+@admin_required
 def update_status(request, id):
     data = json.loads(request.body)
     status = data.get("status")
@@ -433,7 +435,9 @@ def update_status(request, id):
     v.save()
     return HttpResponse("status updated succesfully ")
 
-
+@api_view(["get"])
+@permission_classes([IsAuthenticated])
+@admin_required
 def get_all_order_details(request, id):
     order_detail = list(
         OrderItem.objects.filter(id=id).values(
